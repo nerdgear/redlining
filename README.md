@@ -1,20 +1,10 @@
-# Git + GitHub As A Platform For Reproducible Research 
+# Redlining and Birds Project   
 
 ## Overview
-This repository sets out the skeleton of an organizational structure used for scientific research. It loosely follows what I have used for several of my research projects and I hope it inspires you to conduct your research in an open, reproducible, and honest manner.
+This documents the Redlining and multi-city bird project. Template taken from https://github.com/gchure/reproducible_research. 
+Notes and documentation on redlining project can be found in this google doc: https://docs.google.com/document/d/1jJ6jCU4Bkdh8-ntmUkY53kWe0g_OQOj0-yhwdkSFJyA/edit?usp=sharing
+2-Pager documentation can be found here: https://docs.google.com/document/d/13GK0l3kUKmRLIfMNKjVOIkMaAkIUdbVjrUxqUffDQjw/edit
 
-## How to Use
-To use this template for your research, fork this repository, change the name
-to something descriptive for your project, and adjust the licensing as you
-see fit.
-
-To use this repository for your own research, simply clone the repo using the following:
-
-```
-git clone https://github.com/gchure/reproducible_research your_repo_title
-```
-
-> :warning: :warning: :warning: I wouldn't advise forking this repository. As you can only fork a given repository once, there is little utility in forking this repo if you hope to use it again in your future projects :warning: :warning: :warning:
 
 ## Layout
 
