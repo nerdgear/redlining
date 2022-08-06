@@ -179,12 +179,13 @@ library(rmapshaper)
 
 #HOLC redlining data
 library(rgdal)
-SF_HOLC<- st_read("~/Documents/Stanford/Data/redline_shapefiles/CASanFrancisco1937", "cartodb-query") %>% 
-  st_transform(crs = map_proj) %>% 
-  st_geometry()# load and project gis data
 
-
-#SF_HOLC<- readOGR("~/Documents/Stanford/Data/redline_shapefiles/CASanFrancisco1937", "cartodb-query") 
+#for some reason readOGR works better than st_read for HOLC data
+SF_HOLC<- readOGR("~/Documents/Stanford/Data/redline_shapefiles/CASanFrancisco1937", "cartodb-query") %>%
+st_as_sf(SF_HOLC) %>%
+st_transform(SF_HOLC, crs=map_proj)
+names(SF_HOLC) # check the columns
+class(SF_HOLC) #check the class (should be sf in order for the data to work)
 
 ggplot() +
   geom_sf(data = SF_HOLC) +
@@ -213,33 +214,292 @@ plot(SF_HOLC, col = "#dddddd", border = "#888888", lwd = 0.5, add = TRUE)
 #check if crs are same
 st_crs(ebird_sf)==st_crs(SF_HOLC)
 
-#if true then we can continue
-ebird_clip<-st_crop(ebird_sf, SF_HOLC)
+#if true then we can continue, ignore the code below, this was just to grab only points that fell within the redlined areas
+#ebird_clip<-st_crop(ebird_sf, SF_HOLC)
 
 #spatial join
-ebird_HOLC <- st_join(ebird_clip, left = FALSE, SF_HOLC["holc_grade"]) # join points
+#ebird_HOLC <- st_join(ebird_clip, left = FALSE, SF_HOLC["holc_grade"]) # join points
 
-#plot(bcr, col = "#cccccc", border = NA, add = TRUE)
-#plot(ne_state_lines, col = "#ffffff", lwd = 0.75, add = TRUE)
-#plot(ne_country_lines, col = "#ffffff", lwd = 1.5, add = TRUE)
+#standardize land + calculate total geographic area of HOLC 
+SF_HOLC$area <- st_area(SF_HOLC)
+library(units)
+SF_HOLC$area_km <- set_units(SF_HOLC$area, km^2)
+
+#get rid of the units 
+attributes(SF_HOLC$area_km) = NULL
+
+#this grabs ebird for all redlined and non-redlined areas
+ebird_HOLC_all <- st_join(ebird_sf, left = TRUE, SF_HOLC["holc_grade"]) #join points 
+
+#create a new table with diversity indices
+#install.packages("vegan")
+library(vegan)
+
+#we need to transform the table from long to wide format
+#install.packages("reshape")
+library(reshape)
+ebird_table <- as.data.frame(ebird_HOLC_all) #convert sf object into dataframe so we can reshape it
+#Create NA class for HOLC (ND-- Non-designated)
+ebird_table["holc_grade"][is.na(ebird_table["holc_grade"])] <- "ND"
+
+#summarize observation counts for each HOLC grade 
+ebird_HOLC_agg <- aggregate(OBSERVATION.COUNT~COMMON.NAME+holc_grade, data=ebird_table, FUN=sum) 
+ebird_reshape <- reshape(ebird_HOLC_agg, idvar = "holc_grade", timevar = "COMMON.NAME", direction = "wide")
+#ebird_reshape <- reshape(ebird_HOLC_agg, idvar = "COMMON.NAME", timevar = "holc_grade", direction = "wide")
 
 
-# ebird observations
-# not observed
-plot(st_geometry(ebird_sf),
-     pch = 19, cex = 0.1, col = alpha("#555555", 0.25),
-     add = TRUE)
-# observed
-plot(filter(ebird_sf, species_observed) %>% st_geometry(),
-     pch = 19, cex = 0.3, col = alpha("#4daf4a", 1),
-     add = TRUE)
-# legend
-legend("bottomright", bty = "n",
-       col = c("#555555", "#4daf4a"),
-       legend = c("eBird checklists", "Wood Thrush sightings"),
-       pch = 19)
-box()
-par(new = TRUE, mar = c(0, 0, 3, 0))
-title("Wood Thrush eBird Observations\nJune 2010-2019, BCR 27") v  
+#check that we actually have all the unique species in there
+length(unique(ebird_table[["COMMON.NAME"]])) #488 species matches up with 488 columns made on the table
+
+#replace NA with 0 (species that were not seen at all that year/time)
+ebird_reshape[is.na(ebird_reshape)] <- 0
+
+library(vegan)
+ebird_reshape$shannons <- diversity(ebird_reshape[-1], index="shannon")
 
 
+#plot out shannons
+library(ggplot2)
+
+#HOLC colors
+holc_colors = c("#6495ED", "#9FE2BF", "#FFBF00", "#DE3163")
+ggplot(data = ebird_reshape[-c(5),], aes(x = holc_grade, y = shannons, group = 1)) +
+   labs(x="HOLC ID",y= "Shannon's Diversity") +
+   geom_point(size = 4, color= holc_grade, show.legend = FALSE) +
+   scale_color_manual(values = c("A" = "#6495ED", "B" = "#9FE2BF"))
+
+pe+ scale_fill_manual(values=c("#6495ED", "#9FE2BF", "#FFBF00", "#DE3163"))
+
+   
+
+
+
+
+#This might be next step is to figure out what birds    
+ebird_reshape_names <- make.names(names(ebird_reshape))
+ggplot(data = ebird_reshape, aes(x = holc_grade, y = House.Sparrow  )) + labs(x="HOLC ID",y= "House Sparrow Observation Counts") +
+   geom_bar()
+
+?subset
+
+#Look at observer effort between different zones
+# install.packages("KnowBR")
+# library(KnowBR)
+
+#Look at Sampking Event Identifer and look at counts in each HOLC grade
+samplingffort <- ebird_HOLC_all %>%                              # Applying group_by & summarise
+   group_by(holc_grade) %>%
+   summarise(count = n_distinct(SAMPLING.EVENT.IDENTIFIER, na.rm = TRUE)) 
+
+#remove NA for now 
+ggplot(data= samplingffort[-c(5),], aes(x = holc_grade, y = count)) + labs(x="HOLC ID",y= "Number of Checklists") +
+   geom_bar(stat='identity')
+
+
+#Seems like C has a lot, we should control for area size
+
+#now control for area size
+HOLC_area <- aggregate(SF_HOLC$area_km, by=list(holc_grade=SF_HOLC$holc_grade), FUN=sum)
+#graph this out 
+ggplot(data= HOLC_area[-c(5),], aes(x = holc_grade, y = x, fill= holc_grade)) + labs(x="HOLC ID",y= "Area Size (km)") +
+   geom_col() + scale_fill_manual(values=c("#9FE2BF", "#6495ED", "#FFBF00", "#DE3163"))
+
+
+#combine checklist by area
+HOLC_areaeffort <- merge(x=HOLC_area,y= samplingffort, by="holc_grade")
+
+HOLC_areaeffort$area_effort <- HOLC_areaeffort$count/HOLC_areaeffort$x
+
+#graph
+ggplot(data= HOLC_areaeffort, aes(x = holc_grade, y = area_effort)) + labs(x="HOLC ID",y= "Checklists Divided by Area (km2)") +
+   geom_bar(stat='identity')
+
+ 
+#Now take a look at minutes observation                           
+samplingmin <- aggregate(ebird_HOLC_all$DURATION.MINUTES, by=list(holc_grade=ebird_HOLC_all$holc_grade), FUN=sum)
+ggplot(data= samplingmin, aes(x = holc_grade, y = x)) + labs(x="HOLC ID",y= "Duration Minutes") +
+   geom_bar(stat='identity')
+
+
+######### Part 2a. Controlling for efforts and area ############
+#log minutes since it's a big number to work with
+samplingmin$logmin <- log(samplingmin$x)
+
+#merge minutes and shannons diversity 
+HOLC_merge_min <- merge(samplingmin, ebird_reshape, by = "holc_grade")
+
+require(dplyr)
+HOLC_merge_min <-HOLC_merge_min%>%
+   mutate(diversemin=shannons/logmin)
+
+#plot it out
+ggplot(data = HOLC_merge_min, aes(x = holc_grade, y = diversemin, group = 1)) + labs(x="Years", y="Shannon's Divesity/logmin") +
+   geom_point() + geom_line()
+
+#let's get some raw richness, oh yeahhh
+library(plyr)
+
+
+SF_richness_raw <- ddply(ebird_reshape,~holc_grade,function(x) {
+   data.frame(RICHNESS=sum(x[-1]>0))
+})
+
+ggplot(data= SF_richness_raw[-c(5),], aes(x = holc_grade, y = RICHNESS, group = 1)) + labs(x="HOLC ID",y= "Species Richness") +
+   geom_point(size=4)
+
+#divide by observer hours by species richness
+
+#merge minutes and shannons diversity 
+HOLC_merge_min_rich <- merge(samplingmin, SF_richness_raw, by = "holc_grade")
+
+require(dplyr)
+HOLC_merge_min_rich <-HOLC_merge_min_rich%>%
+   mutate(richmin=RICHNESS/logmin)
+
+#plot it out
+ggplot(data = HOLC_merge_min_rich, aes(x = holc_grade, y = richmin, group = 1)) + labs(x="Years", y="Species Richness/logmin") +
+   geom_point() + geom_line()
+
+############Part 3: NDVI Analysis ###########
+#Import NDVI chart
+SF_NDVI <- SF_HOLC_NDVI_stats
+# Change box plot line colors by groups
+p<-ggplot(SF_NDVI, aes(x=holc_grade, y=sf_zonalstats_ndvi_MEAN, fill=holc_grade)) +
+   scale_y_continuous(trans = "reverse") +
+   geom_boxplot() +
+   xlab("HOLC Grade") +
+   ylab("NDVI Mean") 
+p+ scale_fill_manual(values=c("#9FE2BF", "#6495ED", "#FFBF00", "#DE3163"))
+
+#compare means 
+#install.packages("ggpubr")
+#install.packages("car")
+library(ggpubr)
+library(car)
+compare_means(sf_zonalstats_ndvi_MEAN ~ holc_grade,  data = SF_NDVI, method = "anova")
+
+###########Part 4: Bird Community Species #################
+#remove OBservatoin count from colnames from ebird_reshape
+colnames(ebird_reshape)<-gsub("OBSERVATION.COUNT.","",colnames(ebird_reshape))
+
+
+#rename the columns and get rid of spaces, so that now that's . in spaces and places with commas
+#example: Allen's Hummingbird becomes Allen.s.Hummingbird
+names(ebird_reshape)<-make.names(names(ebird_reshape),unique = TRUE)
+#this above code replaces spaces, ', and - with periods (.)
+
+
+HOLC_merge_min_pigeon <-HOLC_merge_min%>%
+   mutate(pigmin=Rock.Pigeon/logmin)
+
+ggplot(data= ebird_reshape[-c(5),], aes(x = holc_grade, y = Rock.Pigeon, fill= holc_grade)) + labs(x="HOLC ID",y= "Rock Pigeon") +
+   geom_col() + scale_fill_manual(values=c("#9FE2BF","#6495ED", "#FFBF00", "#DE3163"))
+   
+
+#pigeon contrlled for minutes
+ggplot(data= HOLC_merge_min_pigeon[-c(5),], aes(x = holc_grade, y = pigmin, fill= holc_grade)) + labs(x="HOLC ID",y= "Rock Pigeon Counts/logmin") +
+   geom_col() + scale_fill_manual(values=c("#9FE2BF","#6495ED", "#FFBF00", "#DE3163"))
+
+
+#wilson's warbler
+ggplot(data= ebird_reshape[-c(5),], aes(x = holc_grade, y = Wilson.s.Warbler, fill= holc_grade)) + labs(x="HOLC ID",y= "Wilson's warbler") +
+   geom_col()
+
+HOLC_merge_min_warbler <-HOLC_merge_min%>%
+   mutate(warbmin= Wilson.s.Warbler/logmin)
+
+ggplot(data= HOLC_merge_min_warbler[-c(5),], aes(x = holc_grade, y = warbmin, fill= holc_grade)) + labs(x="HOLC ID",y= "Wilson's warbler/logmin") +
+   geom_col() +  scale_fill_manual(values=c("#6495ED", "#9FE2BF", "#FFBF00", "#DE3163"))
+
+
+
+#we're going to do like a group of them just to see whats up
+#subset for the following:
+
+selectbirds <- c(
+'Rock.Pigeon',
+'Red.Tailed.Hawk',
+'European.Starling',
+'Oregon.Junco',
+'White.crowned.Sparrow',
+'Black.Phoebe',
+'House.Sparrow',
+'Red.masked.Parakeet',
+'Eurasian.Collared.Dove',
+'Mourning.Dove')
+
+
+#replace all spaces and special charcters in common name with .
+ebird_HOLC_replace <- ebird_HOLC_all #make a copy in case we mess up 
+
+#replace all white space
+library (magrittr)
+library(stringi)
+
+ebird_HOLC_replace$COMMON.NAME <- stri_replace_all_regex(ebird_HOLC_replace$COMMON.NAME,
+                                  pattern=c(" ","-","'"),
+                                  replacement=c('.', '.', '.'),
+                                  vectorize=FALSE)
+
+ebird_HOLC_select <- ebird_HOLC_replace[ebird_HOLC_replace$COMMON.NAME %in% selectbirds,]
+
+ebird_HOLC_native <- merge(Native_nonnativespecies_draft1, ebird_HOLC_select, by.x="Common_Name", by.y= "COMMON.NAME")
+
+#For every HOLC grade, count how many Natives/non-natives there are 
+
+library(plyr)
+counts <- ddply(ebird_HOLC_native, .(ebird_HOLC_native$holc_grade, ebird_HOLC_native$Native), nrow)
+names(counts) <- c("holc_grade", "Native", "Count")
+
+#graph it out
+ggplot(data= counts[-c(9,10),], aes(x = holc_grade , y = Count, fill= Native)) + labs(x="HOLC ID",y= "Count") +
+   geom_col(position = "dodge")
+
+#Nice let's graph out different bird guilds
+#note to self, need to figure out a better way on how to add parenthesis and make a list for these birds
+
+hab_birds <- c(
+'Rock.Pigeon',
+'Red.Tailed.Hawk',
+'European.Starling',
+'Oregon.Junco',
+'White.crowned.Sparrow',
+'Black.Phoebe',
+'House.Sparrow',
+'House.Finch',
+'Red.masked.Parakeet',
+'Eurasian.Collared.Dove',
+'Mourning.Dove',
+'American.Goldfinch',
+'Common.Raven',
+'American.Crow',
+'Anna.s.Hummingbird',
+'Allen.s.Hummingbird',
+'Brown.Creeper',
+'Wilson.s.Warbler',
+'Golden.crowned.sparrow',
+'California.Scrub.Jay',
+'Stellar.s.Jay',
+'Great.Horned.Owl',
+'Orange.crowned.Warbler',
+'Acorn.Woodpecker',
+'Chestnut.backed.Chickadee',
+'Bushtit',
+'Pine.siskin',
+'Hermit Thrush',
+'California.Towhee')
+
+
+#now create selection for birds
+   
+ebird_HOLC_select <- ebird_HOLC_replace[ebird_HOLC_replace$COMMON.NAME %in% hab_birds,]
+
+ebird_HOLC_habitat <- merge(Habitat_guild_draft1, ebird_HOLC_select, by.x="COMMON.NAME", by.y= "COMMON.NAME")
+
+#count how many there are
+count_hab <- ddply(ebird_HOLC_habitat, .(ebird_HOLC_habitat$holc_grade, ebird_HOLC_habitat$Habitat), nrow)
+names(count_hab) <- c("holc_grade", "Habitat", "Count")
+
+#graph it out
+ggplot(data= count_hab[-c(17,18,19,20),], aes(x = holc_grade , y = Count, fill= Habitat)) + labs(x="HOLC ID",y= "Count") +
+   geom_col(position = "dodge")
