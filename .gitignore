@@ -1,0 +1,8 @@
+#Large spatial outputs keep on Drive 
+*.tif.ovr
+*.aux.xml
+*.geojson
+*.parquet
+*.duckdb
+*.tif
+
