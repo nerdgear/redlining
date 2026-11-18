@@ -1,8 +1,14 @@
-# Chapter 1: Redlining
+# Chapter 2: Redlining Habitat 
+
+
+ This code focuses more on using breaking bird community down by habitat and native species status. We'll be focusing on just San Francisco and LA for now. 
+
+
 
 
 ## Introduction 
 This is documentation on code used for redlining with ebird data. 
+
 
 ## Methods
 
@@ -34,7 +40,7 @@ The naming convention for each file will show as follows:
 
 The code is broken up into 6 different parts: 
 
-- [Chapter 1: Redlining](#chapter-1-redlining)
+- [Chapter 2: Redlining Habitat](#chapter-2-redlining-habitat)
   - [Introduction](#introduction)
   - [Methods](#methods)
     - [Data](#data)
