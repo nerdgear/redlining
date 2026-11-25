@@ -1,0 +1,109 @@
+diversity,scale,guild,test,H,p,pair,z,p_adj
+Species richness,sf_10,all,Kruskal-Wallis,1.5282177920188316,0.6757731585018388,,,
+Species richness,sf_100,all,Kruskal-Wallis,7.635776688143382,0.05417050611228172,,,
+Species richness,sf_250,all,Kruskal-Wallis,2.3973940278959436,0.4941199079566626,,,
+Species richness,sf_500,all,Kruskal-Wallis,3.8148615002634756,0.28216221496496374,,,
+Shannon diversity,sf_10,all,Kruskal-Wallis,2.082642929191275,0.5554321903307082,,,
+Shannon diversity,sf_100,all,Kruskal-Wallis,6.457402622480119,0.09135766233387738,,,
+Shannon diversity,sf_250,all,Kruskal-Wallis,2.0716875325068695,0.5576617694635275,,,
+Shannon diversity,sf_500,all,Kruskal-Wallis,3.642687968881887,0.302722015535213,,,
+Simpson diversity,sf_10,all,Kruskal-Wallis,2.7045677458274033,0.4394516118408067,,,
+Simpson diversity,sf_100,all,Kruskal-Wallis,6.20484779232308,0.10205830822587329,,,
+Simpson diversity,sf_250,all,Kruskal-Wallis,2.3138351851048307,0.5098756355401992,,,
+Simpson diversity,sf_500,all,Kruskal-Wallis,3.19018325281678,0.36322184567435406,,,
+Species richness,sf_10,urban,Kruskal-Wallis,1.5832776763191139,0.6631874103585345,,,
+Species richness,sf_10,shrubgrass,Kruskal-Wallis,4.945568059892171,0.17582658545023533,,,
+Species richness,sf_10,trees,Kruskal-Wallis,1.6554123869682908,0.6468917022523435,,,
+Species richness,sf_10,water,Kruskal-Wallis,2.3663370897385096,0.49993172215224024,,,
+Species richness,sf_10,native,Kruskal-Wallis,1.1111674281609178,0.7743789290388506,,,
+Species richness,sf_10,nonnative,Kruskal-Wallis,0.20614720109732654,0.976590881397079,,,
+Shannon diversity,sf_10,urban,Kruskal-Wallis,1.6381916243214567,0.6507614606022234,,,
+Shannon diversity,sf_10,shrubgrass,Kruskal-Wallis,5.039962125371897,0.16889419998066155,,,
+Shannon diversity,sf_10,trees,Kruskal-Wallis,1.5950152937855924,0.6605205959028573,,,
+Shannon diversity,sf_10,water,Kruskal-Wallis,2.4850003546679886,0.47800795520366623,,,
+Shannon diversity,sf_10,native,Kruskal-Wallis,1.7609164945080211,0.6234766462058072,,,
+Shannon diversity,sf_10,nonnative,Kruskal-Wallis,0.3368271547988596,0.9529597987843218,,,
+Simpson diversity,sf_10,urban,Kruskal-Wallis,1.7014143145590754,0.6366194069179252,,,
+Simpson diversity,sf_10,shrubgrass,Kruskal-Wallis,5.317472104206256,0.14997266212074253,,,
+Simpson diversity,sf_10,trees,Kruskal-Wallis,1.3626029774507515,0.7143237293839171,,,
+Simpson diversity,sf_10,water,Kruskal-Wallis,2.7822033024301502,0.4264379557574697,,,
+Simpson diversity,sf_10,native,Kruskal-Wallis,2.2875236304608455,0.5149152609843677,,,
+Simpson diversity,sf_10,nonnative,Kruskal-Wallis,0.42847449538817617,0.9342995079126828,,,
+Species richness,sf_100,urban,Kruskal-Wallis,1.7816609737251734,0.6189338218128584,,,
+Species richness,sf_100,shrubgrass,Kruskal-Wallis,1.4886400441384589,0.6848946732890593,,,
+Species richness,sf_100,trees,Kruskal-Wallis,3.146062939852993,0.36964876508495303,,,
+Species richness,sf_100,water,Kruskal-Wallis,3.537042553746707,0.31598950949240184,,,
+Species richness,sf_100,native,Kruskal-Wallis,7.200784983590192,0.06576609630704786,,,
+Species richness,sf_100,nonnative,Kruskal-Wallis,2.5027075725335606,0.47480196308040745,,,
+Shannon diversity,sf_100,urban,Kruskal-Wallis,2.504617868350536,0.4744571091734918,,,
+Shannon diversity,sf_100,shrubgrass,Kruskal-Wallis,1.6461986682512906,0.6489605326315173,,,
+Shannon diversity,sf_100,trees,Kruskal-Wallis,3.549090900523903,0.3144507871496066,,,
+Shannon diversity,sf_100,water,Kruskal-Wallis,4.247436267143437,0.23595531994183497,,,
+Shannon diversity,sf_100,native,Kruskal-Wallis,5.98329455154432,0.1124258161518863,,,
+Shannon diversity,sf_100,nonnative,Kruskal-Wallis,2.020666538087562,0.5681283867093423,,,
+Simpson diversity,sf_100,urban,Kruskal-Wallis,3.131760184644185,0.37175309373468574,,,
+Simpson diversity,sf_100,shrubgrass,Kruskal-Wallis,1.854423677156584,0.6031639426308719,,,
+Simpson diversity,sf_100,trees,Kruskal-Wallis,4.016019115898525,0.2597395422832604,,,
+Simpson diversity,sf_100,water,Kruskal-Wallis,4.372611401327608,0.22393842246307424,,,
+Simpson diversity,sf_100,native,Kruskal-Wallis,5.070710334034614,0.16669200883784857,,,
+Simpson diversity,sf_100,nonnative,Kruskal-Wallis,1.6820107332664858,0.640940599579771,,,
+Species richness,sf_250,urban,Kruskal-Wallis,6.971990609404411,0.0727959056435776,,,
+Species richness,sf_250,shrubgrass,Kruskal-Wallis,1.1193468388158667,0.7724058517816615,,,
+Species richness,sf_250,trees,Kruskal-Wallis,4.554207983644226,0.20750572537786477,,,
+Species richness,sf_250,water,Kruskal-Wallis,1.966897948102963,0.5793055071516666,,,
+Species richness,sf_250,native,Kruskal-Wallis,1.9536150294025088,0.5820896756697693,,,
+Species richness,sf_250,nonnative,Kruskal-Wallis,2.3221115050103593,0.5082981694868021,,,
+Shannon diversity,sf_250,urban,Kruskal-Wallis,7.743454921694853,0.05162221302969643,,,
+Shannon diversity,sf_250,shrubgrass,Kruskal-Wallis,1.7276984626051028,0.6307934524762868,,,
+Shannon diversity,sf_250,trees,Kruskal-Wallis,6.222883242714133,0.10125590033662853,,,
+Shannon diversity,sf_250,water,Kruskal-Wallis,2.121188244368729,0.5476381448379235,,,
+Shannon diversity,sf_250,native,Kruskal-Wallis,1.7213585777593594,0.6321957815100694,,,
+Shannon diversity,sf_250,nonnative,Kruskal-Wallis,2.608583551717911,0.4559867261790168,,,
+Simpson diversity,sf_250,urban,Kruskal-Wallis,7.980957595826172,0.046406898491090504,,,
+Simpson diversity,sf_250,urban,Dunn (Holm),,0.008190490797161776,A-B,-2.644114651417046,0.049142944782970654
+Simpson diversity,sf_250,urban,Dunn (Holm),,0.060412506504234846,A-C,-1.8777709457838565,0.24165002601693938
+Simpson diversity,sf_250,urban,Dunn (Holm),,0.02200555570038692,A-D,-2.2902719689800475,0.11002777850193461
+Simpson diversity,sf_250,urban,Dunn (Holm),,0.1133427484111552,B-C,1.583345452602682,0.3400282452334656
+Simpson diversity,sf_250,urban,Dunn (Holm),,0.4586158514005494,B-D,0.7411279710211606,0.7618346001789291
+Simpson diversity,sf_250,urban,Dunn (Holm),,0.38091730008946456,C-D,-0.8762073894631588,0.7618346001789291
+Simpson diversity,sf_250,shrubgrass,Kruskal-Wallis,3.187819014478302,0.3635637824936727,,,
+Simpson diversity,sf_250,trees,Kruskal-Wallis,7.690681613209567,0.05285622564257433,,,
+Simpson diversity,sf_250,water,Kruskal-Wallis,1.984814491212354,0.575564488809517,,,
+Simpson diversity,sf_250,native,Kruskal-Wallis,1.9499810125701231,0.5828529609105471,,,
+Simpson diversity,sf_250,nonnative,Kruskal-Wallis,2.3506691922527096,0.5028835874531377,,,
+Species richness,sf_500,urban,Kruskal-Wallis,18.38882486661315,0.00036565490326378227,,,
+Species richness,sf_500,urban,Dunn (Holm),,0.0008820574446640739,A-B,-3.325671731498424,0.005292344667984443
+Species richness,sf_500,urban,Dunn (Holm),,0.058996742952017144,A-C,-1.888217607754096,0.11799348590403429
+Species richness,sf_500,urban,Dunn (Holm),,0.001242632743930788,A-D,-3.228909355702121,0.0062131637196539405
+Species richness,sf_500,urban,Dunn (Holm),,0.00482864222259706,B-C,2.8182485037426144,0.01931456889038824
+Species richness,sf_500,urban,Dunn (Holm),,0.930408189769649,B-D,-0.08733128173836702,0.930408189769649
+Species richness,sf_500,urban,Dunn (Holm),,0.01243712613612681,C-D,-2.4994927002998835,0.037311378408380426
+Species richness,sf_500,shrubgrass,Kruskal-Wallis,7.022582523612694,0.07118146319226391,,,
+Species richness,sf_500,trees,Kruskal-Wallis,3.1152259636784967,0.3741985308066536,,,
+Species richness,sf_500,water,Kruskal-Wallis,5.823774465744596,0.12050594103360449,,,
+Species richness,sf_500,native,Kruskal-Wallis,4.3755722667633865,0.2236611219134055,,,
+Species richness,sf_500,nonnative,Kruskal-Wallis,1.113942199583651,0.7737094920218245,,,
+Shannon diversity,sf_500,urban,Kruskal-Wallis,19.57380542223276,0.00020800480643643447,,,
+Shannon diversity,sf_500,urban,Dunn (Holm),,0.0007106058929660599,A-B,-3.3854541128236293,0.004263635357796359
+Shannon diversity,sf_500,urban,Dunn (Holm),,0.06051974334132227,A-C,-1.876987965185369,0.12103948668264454
+Shannon diversity,sf_500,urban,Dunn (Holm),,0.0010216915858259844,A-D,-3.2844843876419167,0.005108457929129923
+Shannon diversity,sf_500,urban,Dunn (Holm),,0.003093890526899713,B-C,2.958252029740665,0.012375562107598851
+Shannon diversity,sf_500,urban,Dunn (Holm),,0.9326597647911536,B-D,-0.08449891584414959,0.9326597647911536
+Shannon diversity,sf_500,urban,Dunn (Holm),,0.008881861776596504,C-D,-2.616568205421915,0.02664558532978951
+Shannon diversity,sf_500,shrubgrass,Kruskal-Wallis,6.346017750950025,0.09593705405823148,,,
+Shannon diversity,sf_500,trees,Kruskal-Wallis,0.6164497697717136,0.8926564643679489,,,
+Shannon diversity,sf_500,water,Kruskal-Wallis,6.21819379418588,0.10146395292319331,,,
+Shannon diversity,sf_500,native,Kruskal-Wallis,4.512105040279892,0.211213083519703,,,
+Shannon diversity,sf_500,nonnative,Kruskal-Wallis,0.6972987271478095,0.8738391311523424,,,
+Simpson diversity,sf_500,urban,Kruskal-Wallis,19.862408432299183,0.00018125943859306914,,,
+Simpson diversity,sf_500,urban,Dunn (Holm),,0.0007338836626572097,A-B,-3.3765974637384133,0.004403301975943258
+Simpson diversity,sf_500,urban,Dunn (Holm),,0.07145237985303632,A-C,-1.8025915831675519,0.14290475970607264
+Simpson diversity,sf_500,urban,Dunn (Holm),,0.001325575996658574,A-D,-3.2103843450555223,0.0066278799832928705
+Simpson diversity,sf_500,urban,Dunn (Holm),,0.0020154666271530023,B-C,3.087943681302596,0.00806186650861201
+Simpson diversity,sf_500,urban,Dunn (Holm),,0.9740157330419672,B-D,0.03257220778349845,0.9740157330419672
+Simpson diversity,sf_500,urban,Dunn (Holm),,0.00900632731932329,C-D,-2.611813870188533,0.027018981957969868
+Simpson diversity,sf_500,shrubgrass,Kruskal-Wallis,5.776079195991765,0.12302747579711439,,,
+Simpson diversity,sf_500,trees,Kruskal-Wallis,0.10080887669757183,0.9917401790299949,,,
+Simpson diversity,sf_500,water,Kruskal-Wallis,7.0609578364165495,0.06998001074197654,,,
+Simpson diversity,sf_500,native,Kruskal-Wallis,4.037636191947581,0.25742867525379026,,,
+Simpson diversity,sf_500,nonnative,Kruskal-Wallis,0.38207104628782285,0.9439207795136031,,,
